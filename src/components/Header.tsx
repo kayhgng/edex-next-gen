@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { Wifi, Signal, Battery, Zap } from "lucide-react";
+import { useSystemInfo } from "@/hooks/useSystemInfo";
 
 export const Header = () => {
   const [time, setTime] = useState(new Date());
   const [glitch, setGlitch] = useState(false);
+  const systemInfo = useSystemInfo();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -71,15 +73,15 @@ export const Header = () => {
       <div className="flex items-center gap-4 z-10">
         <div className="flex items-center gap-2 text-neon-green">
           <Wifi className="w-5 h-5 animate-pulse" />
-          <span className="text-xs font-semibold">ONLINE</span>
+          <span className="text-xs font-semibold">{systemInfo.connection.toUpperCase()}</span>
         </div>
         <div className="flex items-center gap-2 text-neon-purple">
           <Signal className="w-5 h-5" />
-          <span className="text-xs font-semibold">85%</span>
+          <span className="text-xs font-semibold">{systemInfo.cores}C</span>
         </div>
-        <div className="flex items-center gap-2 text-neon-cyan">
+        <div className={`flex items-center gap-2 ${systemInfo.batteryCharging ? 'text-neon-green' : 'text-neon-cyan'}`}>
           <Battery className="w-5 h-5" />
-          <span className="text-xs font-semibold">92%</span>
+          <span className="text-xs font-semibold">{systemInfo.batteryLevel.toFixed(0)}%</span>
         </div>
       </div>
     </header>

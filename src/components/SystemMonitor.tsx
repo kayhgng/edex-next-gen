@@ -1,41 +1,74 @@
 import { useState, useEffect } from "react";
-import { Cpu, HardDrive, Activity } from "lucide-react";
+import { Cpu, HardDrive, Activity, Thermometer } from "lucide-react";
+import { useSystemInfo } from "@/hooks/useSystemInfo";
 
 interface SystemMetric {
   label: string;
   value: number;
   icon: React.ReactNode;
   color: string;
+  unit?: string;
 }
 
 export const SystemMonitor = () => {
-  const [metrics, setMetrics] = useState<SystemMetric[]>([
-    { label: "CPU", value: 45, icon: <Cpu className="w-5 h-5" />, color: "cyan" },
-    { label: "RAM", value: 62, icon: <HardDrive className="w-5 h-5" />, color: "green" },
-    { label: "NET", value: 38, icon: <Activity className="w-5 h-5" />, color: "purple" },
-  ]);
+  const systemInfo = useSystemInfo();
+  const [cpuUsage, setCpuUsage] = useState(0);
+  const [ramUsage, setRamUsage] = useState(0);
+  const [netUsage, setNetUsage] = useState(0);
+  const [temp, setTemp] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setMetrics((prev) =>
-        prev.map((metric) => ({
-          ...metric,
-          value: Math.max(10, Math.min(95, metric.value + (Math.random() - 0.5) * 20)),
-        }))
-      );
-    }, 2000);
+    const updateMetrics = () => {
+      // Simulate CPU usage based on actual performance
+      if ('memory' in performance) {
+        const mem = (performance as any).memory;
+        setRamUsage(systemInfo.memoryUsed || (mem.usedJSHeapSize / mem.jsHeapSizeLimit) * 100);
+      } else {
+        setRamUsage((prev) => Math.max(20, Math.min(85, prev + (Math.random() - 0.5) * 15)));
+      }
 
+      // CPU simulation with more realistic values
+      setCpuUsage((prev) => {
+        const target = 30 + Math.random() * 40;
+        return prev + (target - prev) * 0.3;
+      });
+
+      // Network simulation
+      setNetUsage((prev) => Math.max(5, Math.min(95, prev + (Math.random() - 0.5) * 25)));
+
+      // Temperature simulation
+      setTemp((prev) => {
+        const target = 45 + Math.random() * 30;
+        return prev + (target - prev) * 0.2;
+      });
+    };
+
+    updateMetrics();
+    const interval = setInterval(updateMetrics, 1500);
     return () => clearInterval(interval);
-  }, []);
+  }, [systemInfo]);
+
+  const metrics: SystemMetric[] = [
+    { label: "CPU", value: cpuUsage, icon: <Cpu className="w-5 h-5" />, color: "cyan", unit: "%" },
+    { label: "RAM", value: ramUsage, icon: <HardDrive className="w-5 h-5" />, color: "green", unit: "%" },
+    { label: "NET", value: netUsage, icon: <Activity className="w-5 h-5" />, color: "purple", unit: "%" },
+    { label: "TEMP", value: temp, icon: <Thermometer className="w-5 h-5" />, color: "pink", unit: "°C" },
+  ];
 
   return (
-    <div className="glass-panel h-full p-4 space-y-4">
-      <div className="flex items-center gap-2 pb-3 border-b border-neon">
+    <div className="glass-panel h-full p-4 space-y-4 relative overflow-hidden">
+      {/* Holographic effect */}
+      <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/5 via-transparent to-neon-purple/5 pointer-events-none" />
+      
+      <div className="flex items-center gap-2 pb-3 border-b border-neon relative z-10">
         <div className="w-2 h-2 rounded-full bg-neon-green animate-pulse" />
         <span className="text-neon-cyan font-semibold text-sm">SYSTEM MONITOR</span>
+        <div className="ml-auto text-xs text-muted-foreground">
+          {systemInfo.cores} CORES
+        </div>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-6 relative z-10">
         {metrics.map((metric) => (
           <div key={metric.label} className="space-y-2">
             <div className="flex items-center justify-between text-xs">
@@ -44,7 +77,7 @@ export const SystemMonitor = () => {
                 <span className="font-semibold">{metric.label}</span>
               </div>
               <span className={`text-neon-${metric.color} font-bold`}>
-                {metric.value.toFixed(1)}%
+                {metric.value.toFixed(1)}{metric.unit}
               </span>
             </div>
             
@@ -75,16 +108,20 @@ export const SystemMonitor = () => {
         ))}
       </div>
 
-      {/* Uptime display */}
-      <div className="pt-4 border-t border-neon/30">
-        <div className="text-xs text-muted-foreground">
-          <div className="flex justify-between mb-1">
-            <span>UPTIME</span>
-            <span className="text-neon-cyan">24:13:47</span>
+      {/* System info display */}
+      <div className="pt-4 border-t border-neon/30 relative z-10">
+        <div className="text-xs text-muted-foreground space-y-2">
+          <div className="flex justify-between">
+            <span>PLATFORM</span>
+            <span className="text-neon-cyan">{systemInfo.platform}</span>
           </div>
           <div className="flex justify-between">
-            <span>PROCESSES</span>
-            <span className="text-neon-green">142</span>
+            <span>MEMORY</span>
+            <span className="text-neon-green">{systemInfo.memory}GB</span>
+          </div>
+          <div className="flex justify-between">
+            <span>CONNECTION</span>
+            <span className="text-neon-purple">{systemInfo.connection.toUpperCase()}</span>
           </div>
         </div>
       </div>

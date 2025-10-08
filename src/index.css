@@ -47,10 +47,11 @@
 
     --radius: 0.25rem;
 
-    /* Custom Glow Effects */
-    --glow-cyan: 0 0 10px hsl(180 100% 50% / 0.5), 0 0 20px hsl(180 100% 50% / 0.3);
-    --glow-green: 0 0 10px hsl(120 100% 50% / 0.5), 0 0 20px hsl(120 100% 50% / 0.3);
-    --glow-purple: 0 0 10px hsl(270 100% 65% / 0.5), 0 0 20px hsl(270 100% 65% / 0.3);
+    /* Custom Glow Effects - Enhanced */
+    --glow-cyan: 0 0 15px hsl(180 100% 50% / 0.6), 0 0 30px hsl(180 100% 50% / 0.4), 0 0 45px hsl(180 100% 50% / 0.2);
+    --glow-green: 0 0 15px hsl(120 100% 50% / 0.6), 0 0 30px hsl(120 100% 50% / 0.4), 0 0 45px hsl(120 100% 50% / 0.2);
+    --glow-purple: 0 0 15px hsl(270 100% 65% / 0.6), 0 0 30px hsl(270 100% 65% / 0.4), 0 0 45px hsl(270 100% 65% / 0.2);
+    --glow-pink: 0 0 15px hsl(320 100% 65% / 0.6), 0 0 30px hsl(320 100% 65% / 0.4), 0 0 45px hsl(320 100% 65% / 0.2);
     
     /* Grid Pattern */
     --grid-color: 180 100% 50% / 0.1;
@@ -93,6 +94,11 @@
   .border-neon-green {
     border-color: hsl(var(--neon-green));
     box-shadow: var(--glow-green);
+  }
+  
+  .border-neon-pink {
+    border-color: hsl(var(--neon-pink));
+    box-shadow: var(--glow-pink);
   }
   
   .bg-terminal {
@@ -154,8 +160,40 @@
   }
   
   .glass-panel {
-    background: hsl(0 0% 5% / 0.5);
-    backdrop-filter: blur(10px);
+    background: hsl(0 0% 5% / 0.6);
+    backdrop-filter: blur(12px);
     border: 1px solid hsl(180 100% 50% / 0.3);
+    position: relative;
+  }
+  
+  .glass-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, hsl(180 100% 50% / 0.05) 0%, transparent 50%, hsl(270 100% 65% / 0.05) 100%);
+    pointer-events: none;
+  }
+  
+  @keyframes float-particle {
+    0%, 100% { 
+      transform: translate(0, 0) rotate(0deg);
+      opacity: 0.3;
+    }
+    25% { 
+      transform: translate(10px, -10px) rotate(90deg);
+      opacity: 0.8;
+    }
+    50% { 
+      transform: translate(20px, 0) rotate(180deg);
+      opacity: 0.3;
+    }
+    75% { 
+      transform: translate(10px, 10px) rotate(270deg);
+      opacity: 0.8;
+    }
+  }
+  
+  .animate-float {
+    animation: float-particle 10s ease-in-out infinite;
   }
 }

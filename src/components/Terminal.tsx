@@ -11,7 +11,7 @@ export const Terminal = () => {
   const systemInfo = useSystemInfo();
   const [lines, setLines] = useState<TerminalLine[]>([
     { type: "success", text: "╔═══════════════════════════════════════════════════════════╗" },
-    { type: "success", text: "║         EDEX-UI v2.0 - NEURAL INTERFACE ACTIVE          ║" },
+    { type: "success", text: "║          NEXA-OS - NEURAL INTERFACE ACTIVE              ║" },
     { type: "success", text: "╚═══════════════════════════════════════════════════════════╝" },
     { type: "output", text: "" },
     { type: "output", text: `User: Alikay_h | Platform: ${navigator.platform}` },

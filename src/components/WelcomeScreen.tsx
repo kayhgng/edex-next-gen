@@ -11,11 +11,11 @@ export const WelcomeScreen = ({ username = "Alikay_h", onComplete }: WelcomeScre
   const [textIndex, setTextIndex] = useState(0);
 
   const welcomeTexts = [
-    "INITIALIZING SYSTEM...",
-    "LOADING NEURAL INTERFACE...",
-    "ESTABLISHING QUANTUM LINK...",
+    "BOOTING NEXA-OS...",
+    "LOADING SYSTEM MODULES...",
+    "INITIALIZING NEURAL CORE...",
     `WELCOME BACK, ${username.toUpperCase()}`,
-    "ALL SYSTEMS OPERATIONAL",
+    "SYSTEM READY",
   ];
 
   useEffect(() => {
@@ -47,8 +47,9 @@ export const WelcomeScreen = ({ username = "Alikay_h", onComplete }: WelcomeScre
         {/* Welcome text */}
         <div className="space-y-4">
           <h1 className="text-5xl font-bold text-neon-cyan animate-pulse-glow">
-            EDEX-UI v2.0
+            NEXA-OS
           </h1>
+          <p className="text-sm text-neon-purple">Advanced System Interface</p>
           
           <div className="h-8 flex items-center justify-center">
             {welcomeTexts.slice(0, textIndex + 1).map((text, idx) => (

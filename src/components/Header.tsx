@@ -55,9 +55,9 @@ export const Header = () => {
         </div>
         <div>
           <h1 className={`text-2xl font-bold text-neon-cyan ${glitch ? "animate-glitch" : ""}`}>
-            EDEX-UI
+            NEXA-OS
           </h1>
-          <p className="text-xs text-neon-green">v2.0 Enhanced</p>
+          <p className="text-xs text-neon-green">Neural System</p>
         </div>
       </div>
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Header } from "@/components/Header";
-import { Terminal } from "@/components/Terminal";
+import { WindowsTerminal } from "@/components/WindowsTerminal";
 import { SystemMonitor } from "@/components/SystemMonitor";
 import { FileExplorer } from "@/components/FileExplorer";
 import { NetworkVisualization } from "@/components/NetworkVisualization";
@@ -26,9 +26,9 @@ const Index = () => {
 
         {/* Main content grid */}
         <div className="h-[calc(100vh-80px)] p-4 gap-4 grid grid-cols-12 grid-rows-12 relative z-10">
-        {/* Terminal - Takes up most space */}
+        {/* Windows Terminal - Takes up most space */}
         <div className="col-span-7 row-span-8">
-          <Terminal />
+          <WindowsTerminal />
         </div>
 
         {/* System Monitor - Right side top */}

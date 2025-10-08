@@ -1,11 +1,39 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Header } from "@/components/Header";
+import { Terminal } from "@/components/Terminal";
+import { SystemMonitor } from "@/components/SystemMonitor";
+import { FileExplorer } from "@/components/FileExplorer";
+import { NetworkVisualization } from "@/components/NetworkVisualization";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-background grid-pattern overflow-hidden">
+      {/* Scanline effect overlay */}
+      <div className="fixed inset-0 scanline pointer-events-none z-50" />
+      
+      {/* Header */}
+      <Header />
+
+      {/* Main content grid */}
+      <div className="h-[calc(100vh-80px)] p-4 gap-4 grid grid-cols-12 grid-rows-12">
+        {/* Terminal - Takes up most space */}
+        <div className="col-span-7 row-span-8">
+          <Terminal />
+        </div>
+
+        {/* System Monitor - Right side top */}
+        <div className="col-span-5 row-span-6">
+          <SystemMonitor />
+        </div>
+
+        {/* Network Visualization - Right side bottom */}
+        <div className="col-span-5 row-span-6">
+          <NetworkVisualization />
+        </div>
+
+        {/* File Explorer - Bottom left */}
+        <div className="col-span-7 row-span-4">
+          <FileExplorer />
+        </div>
       </div>
     </div>
   );
